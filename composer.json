@@ -5,6 +5,7 @@
         }
     },
     "require": {
-        "doctrine/orm": "^2.6"
+        "doctrine/orm": "^2.6",
+        "twig/twig": "2.0"
     }
 }

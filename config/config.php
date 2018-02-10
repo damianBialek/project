@@ -5,5 +5,9 @@ return [
         'user'     => 'root',
         'password' => '',
         'dbname'   => 'study_002'
+    ],
+    'view' => [
+        'path' => $_SERVER['DOCUMENT_ROOT'].'/project/resources/',
+        'cache' => $_SERVER['DOCUMENT_ROOT'].'/project/cache/',
     ]
 ];

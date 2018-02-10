@@ -20,7 +20,7 @@ class Router
 
     private function setPathInfo()
     {
-        $this->fullPathInfo = $_SERVER['PATH_INFO'];
+        $this->fullPathInfo = (!empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '');
 
         $this->setPathInfoParams();
     }
@@ -75,17 +75,19 @@ class Router
     public function match()
     {
         foreach ($this->routeCollection as $routeName => $route) {
-            $routeArrayRegex = $this->routeCollection[$routeName]['regex'];
-            $routeArrayParam = $this->routeCollection[$routeName]['params'];
+            $routeArrayRegex = (!empty($this->routeCollection[$routeName]['regex']) ? $this->routeCollection[$routeName]['regex'] : []);
+            $routeArrayParam = (!empty($this->routeCollection[$routeName]['params']) ? $this->routeCollection[$routeName]['params'] : []);
 
             if(!$this->matchRoute($routeArrayRegex))
                 continue;
 
-            foreach ($routeArrayParam as $key => $paramName) {
-                $params[$paramName] = $this->pathInfoParams[$key];
+            if(!empty($routeArrayParam)) {
+                foreach ($routeArrayParam as $key => $paramName) {
+                    $params[$paramName] = $this->pathInfoParams[$key];
+                }
             }
 
-            return ['params' => $params, 'routeName' => $routeName];
+            return ['params' => (isset($params) ? $params : []), 'routeName' => $routeName];
         }
 
     }

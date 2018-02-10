@@ -4,29 +4,34 @@ use Providers\DoctrineServiceProvider;
 
 class App
 {
-    private $config;
-    private $entityManager;
+    private $controller;
+    private $method;
 
-    public function __construct()
+    public function init()
     {
-        $this->loadConfig();
-        $this->doctrineInit();
+        $router = new Router();
+        $this->controller = $router->getController();
+        $this->method = $router->getControllerMethod();
+
+        $this->start();
     }
 
-    private function loadConfig()
+    private function start()
     {
-        $this->config = include '../config/config.php';
-    }
+        if(class_exists($this->controller)){
+            $controller = new $this->controller();
 
-    private function doctrineInit()
-    {
-        $doctrine = new DoctrineServiceProvider($this->config['database']);
-        $this->entityManager = $doctrine->provide();
-    }
+            if(method_exists($controller,$this->method)){
+                $controller->index();
+            }
+            else{
+                die("metoda nie istnieje ".$this->method);
+            }
+        }
+        else{
+            die("Taki kontroler nie istnieje ".$this->controller);
+        }
 
-    public function getEntityManager()
-    {
-        return $this->entityManager;
     }
 
 }

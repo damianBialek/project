@@ -7,12 +7,16 @@ abstract class MainController
     private $config;
     protected $entityManager;
     protected $view;
+    protected $urlGenerator;
 
     public function __construct()
     {
         $this->loadConfig();
         $this->doctrineInit();
         $this->twigInit();
+
+        $this->urlGenerator = new \UrlGenerator\UrlGenerator($this->config['url']);
+
     }
 
     private function loadConfig()

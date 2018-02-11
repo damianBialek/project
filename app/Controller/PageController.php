@@ -6,6 +6,7 @@ class PageController extends MainController
 {
     public function index()
     {
-        $this->render('index.html.twig');
+        echo $this->urlGenerator->generateUrl('test');
+//        $this->render('index.html.twig');
     }
 }

@@ -4,6 +4,10 @@ try{
     $app = new App();
     $app->init();
 }
-catch (RouterException $e){
-    header("HTTP/1.0 404 Not Found");
+catch (\Exception $e){
+    $app->error($e->getMessage());
+
+    echo '<pre>';
+    echo $e->getTraceAsString();
+    echo '</pre>';
 }

@@ -9,5 +9,8 @@ return [
     'view' => [
         'path' => $_SERVER['DOCUMENT_ROOT'].'/project/resources/',
         'cache' => $_SERVER['DOCUMENT_ROOT'].'/project/cache/',
+    ],
+    'url' => [
+        'basename' => 'http://localhost/project/'
     ]
 ];

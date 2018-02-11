@@ -27,8 +27,10 @@ class Router
 
     private function setPathInfoParams()
     {
-        if(!empty($this->fullPathInfo))
+        if(!empty($this->fullPathInfo)) {
             $this->pathInfoParams = explode('/', $this->fullPathInfo);
+            unset($this->pathInfoParams[0]);
+        }
     }
 
     private function loadRouteCollection()
@@ -40,15 +42,13 @@ class Router
     {
         foreach ($this->routeCollection as $routeName => $route){
             $routeArray = explode('/', $route[0]);
+            unset($routeArray[0]);
 
             foreach ($routeArray as $key => $param) {
                 if (preg_match('%{{(.*)}}%', $param, $match)) {
                     $this->routeCollection[$routeName]['params'][$key] = $match[1];
                     continue;
                 }
-
-                if (empty($param))
-                    continue;
 
                 $this->routeCollection[$routeName]['regex'][$key] = '%^' . $param . '$%';
             }
@@ -66,7 +66,7 @@ class Router
             $this->controllerMethod = $extractControllerInfo[1];
         }
         else{
-            throw new RouterException();
+            header("HTTP/1.0 404 Not Found");
         }
 
 

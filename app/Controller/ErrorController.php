@@ -9,9 +9,15 @@ class ErrorController extends MainController
         // TODO: Implement index() method.
     }
 
-    public function error($message)
+    public function error($message, $exception = null)
     {
-        $this->render('Errors/main.html.twig',['message' => $message]);
+        $this->render('Errors/main.html.twig',['message' => $message, 'exception' => $exception]);
+        exit();
+    }
+
+    public function errorDocument($errorCode)
+    {
+        $this->render("Errors/$errorCode.html.twig");
         exit();
     }
 }

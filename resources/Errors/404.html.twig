@@ -1,0 +1,29 @@
+{% extends 'Main/head.html.twig' %}
+
+{% block title %}Nie znaleziono takiej strony{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="error-template">
+                    <h1>
+                        Oops!</h1>
+                    <h2>
+                        404 Not Found</h2>
+                    <div class="error-details">
+                        Przepraszamy, żądana strona nie została znaleziona.
+                    </div>
+                    <div class="error-actions">
+                        <a href="{{ urlGenerator('home') }}" class="btn btn-primary btn-lg">
+                            <span class="glyphicon glyphicon-home"></span>
+                            Strona Główna
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

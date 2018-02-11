@@ -4,10 +4,10 @@ try{
     $app = new App();
     $app->init();
 }
-catch (\Exception $e){
-    $app->error($e->getMessage());
-
-    echo '<pre>';
-    echo $e->getTraceAsString();
-    echo '</pre>';
+catch (\RouterException $e){
+    $app->errorDocument(404);
 }
+catch (\Exception $e){
+    $app->error($e->getMessage(), $e->getTraceAsString());
+}
+

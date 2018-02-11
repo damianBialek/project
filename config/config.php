@@ -10,7 +10,8 @@ return [
         'path' => $_SERVER['DOCUMENT_ROOT'].'/project/resources/',
         'cache' => $_SERVER['DOCUMENT_ROOT'].'/project/cache/',
         'url' => [
-            'basename' => 'http://localhost/project'
+            'basename' => 'http://localhost/project',
+            'attachments' => 'http://localhost/project/public/media/'
         ]
     ],
     'url' => [

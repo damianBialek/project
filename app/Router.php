@@ -9,6 +9,15 @@ class Router
 
     private $controller;
     private $controllerMethod;
+    private $nameRouteMatch;
+
+    /**
+     * @return mixed
+     */
+    public function getNameRouteMatch()
+    {
+        return $this->nameRouteMatch;
+    }
 
     public function __construct()
     {
@@ -69,9 +78,10 @@ class Router
             $extractControllerInfo = explode('::',$this->routeCollection[$match['routeName']][1]);
             $this->controller = $extractControllerInfo[0];
             $this->controllerMethod = $extractControllerInfo[1];
+            $this->nameRouteMatch = $match['routeName'];
         }
         else{
-            header("HTTP/1.0 404 Not Found");
+            throw new \RouterException();
         }
 
 

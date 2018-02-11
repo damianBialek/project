@@ -4,23 +4,29 @@ use Providers\DoctrineServiceProvider;
 
 class App
 {
+    private $router;
+
     private $controller;
     private $method;
     private $errorController;
 
+    private $request;
+
     public function init()
     {
         $this->errorController = new \Controller\ErrorController();
-        $router = new Router();
-        $this->controller = $router->getController();
-        $this->method = $router->getControllerMethod();
+        $this->router = new Router();
+        $this->controller = $this->router->getController();
+        $this->method = $this->router->getControllerMethod();
         $this->start();
     }
 
     private function start()
     {
+        $this->buildRequest();
+
         if(class_exists($this->controller)){
-            $controller = new $this->controller();
+            $controller = new $this->controller($this->request);
 
             if(method_exists($controller,$this->method)){
                 call_user_func_array(array($controller, $this->method),array());
@@ -35,9 +41,23 @@ class App
 
     }
 
-    public function error($message)
+    private function buildRequest()
     {
-        $this->errorController->error($message);
+        $request = [
+            'matchRouteName' => $this->router->getNameRouteMatch()
+        ];
+
+        $this->request = $request;
+    }
+
+    public function error($message, $exception = null)
+    {
+        $this->errorController->error($message, $exception);
+    }
+
+    public function errorDocument($errorCode)
+    {
+        $this->errorController->errorDocument($errorCode);
     }
 
 }

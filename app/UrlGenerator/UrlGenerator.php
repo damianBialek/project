@@ -51,4 +51,13 @@ class UrlGenerator
         return $url;
     }
 
+    public function generateUrlToAttachments($attachmentName)
+    {
+        $url = $this->config['attachments'];
+
+        $url .= $attachmentName;
+
+        return $url;
+    }
+
 }

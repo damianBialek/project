@@ -4,11 +4,12 @@
 
 {% block content %}
 
-<div class="container">
-    <h1 class="text-center">Błąd aplikacji!</h1>
-    <section class="alert alert-danger">
-        {{ message }}
-    </section>
-</div>
+<h1 class="text-center">Błąd aplikacji!</h1>
+<section class="alert alert-danger">
+    {{ message }}
+</section>
+<section class="exception-trace">
+    {{ exception }}
+</section>
 
 {% endblock %}

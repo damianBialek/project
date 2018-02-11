@@ -9,9 +9,12 @@ class TwigServiceProvider
     private $config;
     private $loader;
 
-    public function __construct($config)
+    private $params;
+
+    public function __construct($config, $params = [])
     {
         $this->config = $config;
+        $this->params = $params;
     }
 
     public function provide()
@@ -30,7 +33,22 @@ class TwigServiceProvider
             return $urlGenerator->generateUrl($name,$param);
         });
 
+        $activeMenuFunction = new \Twig_Function('activeMenu',function($menuLink){
+            if($menuLink === $this->params['routeName'])
+                return true;
+            else
+                return false;
+        });
+
+        $attachmentFunction = new \Twig_Function('attachmentLink',function($attachmentName){
+            $urlGenerator = new UrlGenerator($this->config['url']);
+            return $urlGenerator->generateUrlToAttachments($attachmentName);
+        });
+
         $twig->addFunction($urlGeneratorFunction);
+        $twig->addFunction($activeMenuFunction);
+        $twig->addFunction($attachmentFunction);
+        $twig->addExtension(new \Twig_Extension_Debug());
 
         return $twig;
     }

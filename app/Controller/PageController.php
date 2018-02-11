@@ -8,4 +8,8 @@ class PageController extends MainController
     {
         $this->render('index.html.twig');
     }
+    public function projects()
+    {
+        $this->render('projects.html.twig');
+    }
 }

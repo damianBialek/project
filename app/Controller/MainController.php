@@ -5,18 +5,18 @@ namespace Controller;
 abstract class MainController
 {
     private $config;
+
+    protected $request;
     protected $entityManager;
     protected $view;
     protected $urlGenerator;
 
-    public function __construct()
+    public function __construct($request = null)
     {
+        $this->request = $request;
         $this->loadConfig();
         $this->doctrineInit();
         $this->twigInit();
-
-        $this->urlGenerator = new \UrlGenerator\UrlGenerator($this->config['url']);
-
     }
 
     private function loadConfig()
@@ -32,7 +32,7 @@ abstract class MainController
 
     private function twigInit()
     {
-        $twig = new \Providers\TwigServiceProvider($this->config['view']);
+        $twig = new \Providers\TwigServiceProvider($this->config['view'],['routeName' => $this->request['matchRouteName']]);
         $this->view = $twig->provide();
     }
 

@@ -44,13 +44,18 @@ class Router
             $routeArray = explode('/', $route[0]);
             unset($routeArray[0]);
 
-            foreach ($routeArray as $key => $param) {
-                if (preg_match('%{{(.*)}}%', $param, $match)) {
-                    $this->routeCollection[$routeName]['params'][$key] = $match[1];
-                    continue;
-                }
+            if(!empty($routeArray)) {
+                foreach ($routeArray as $key => $param) {
+                    if (preg_match('%{{(.*)}}%', $param, $match)) {
+                        $this->routeCollection[$routeName]['params'][$key] = $match[1];
+                        continue;
+                    }
 
-                $this->routeCollection[$routeName]['regex'][$key] = '%^' . $param . '$%';
+                    $this->routeCollection[$routeName]['regex'][$key] = '%^' . $param . '$%';
+                }
+            }
+            else{
+                $this->routeCollection[$routeName]['regex'][1] = '%^$%';
             }
         }
 

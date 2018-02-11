@@ -2,5 +2,5 @@
 return [
     'home' => [
         '','Controller\\PageController::index'
-    ]
+    ],
 ];

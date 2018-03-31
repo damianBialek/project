@@ -26,9 +26,11 @@ class App
         $this->buildRequest();
 
         if(class_exists($this->controller)){
-            $controller = new $this->controller($this->request);
+            $controller = new $this->controller($this->request,$this->router->getParams());
 
             if(method_exists($controller,$this->method)){
+                if($this->checkAcceptJson())
+                    $controller->setJson(true);
                 call_user_func_array(array($controller, $this->method),array());
             }
             else{
@@ -58,6 +60,14 @@ class App
     public function errorDocument($errorCode)
     {
         $this->errorController->errorDocument($errorCode);
+    }
+
+    private function checkAcceptJson()
+    {
+        if($_SERVER['HTTP_ACCEPT'] == 'application/json')
+            return true;
+
+        return false;
     }
 
 }

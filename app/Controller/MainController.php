@@ -2,18 +2,23 @@
 namespace Controller;
 
 
+use UrlGenerator\UrlGenerator;
+
 abstract class MainController
 {
-    private $config;
+    protected $config;
 
+    protected $toJson = false;
     protected $request;
     protected $entityManager;
     protected $view;
     protected $urlGenerator;
+    protected $requestParams;
 
-    public function __construct($request = null)
+    public function __construct($request = null, $requestParams = [])
     {
         $this->request = $request;
+        $this->requestParams = $requestParams;
         $this->loadConfig();
         $this->doctrineInit();
         $this->twigInit();
@@ -46,5 +51,16 @@ abstract class MainController
         echo $this->view->render($name,$data);
     }
 
-    abstract public function index();
+    public function setJson($json)
+    {
+        $this->toJson = $json;
+    }
+
+    public function redirect($name, $param = [])
+    {
+        $url = new UrlGenerator($this->config['url']);
+        $url = $url->generateUrl($name, $param);
+
+        header("Location: $url");
+    }
 }

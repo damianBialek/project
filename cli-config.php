@@ -16,10 +16,10 @@ if ($smModuleArg) {
 } else {
     $paths = array(__DIR__ . '\\app\\');
 }
-print_r($paths);
+
 $isDevMode = true;
 $dbParams = include(__DIR__ . '/config/config.php');
 $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
 $entityManager = EntityManager::create($dbParams['database'], $config);
 return ConsoleRunner::createHelperSet($entityManager);
-//php vendor/bin/doctrine orm:schema-tool:update --force --dump-sql
+//php vendor/doctrine/orm/bin/doctrine.php orm:schema-tool:create

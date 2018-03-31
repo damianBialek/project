@@ -11,9 +11,8 @@ class Router
     private $controllerMethod;
     private $nameRouteMatch;
 
-    /**
-     * @return mixed
-     */
+    private $matchedParams;
+
     public function getNameRouteMatch()
     {
         return $this->nameRouteMatch;
@@ -44,7 +43,8 @@ class Router
 
     private function loadRouteCollection()
     {
-        $this->routeCollection = include 'route.php';
+        $this->routeCollection = new RouteCollection();
+        $this->routeCollection = $this->routeCollection->getRoutesItems($_SERVER['REQUEST_METHOD']);
     }
 
     private function buildRoutesRegexAndParams()
@@ -56,7 +56,9 @@ class Router
             if(!empty($routeArray)) {
                 foreach ($routeArray as $key => $param) {
                     if (preg_match('%{{(.*)}}%', $param, $match)) {
-                        $this->routeCollection[$routeName]['params'][$key] = $match[1];
+                        $this->routeCollection[$routeName]['params'][$key] = $this->buildRouteParamRegex($param)['name'];
+                        $this->routeCollection[$routeName]['regex'][$key] = $this->buildRouteParamRegex($param)['regex'];
+
                         continue;
                     }
 
@@ -70,6 +72,25 @@ class Router
 
     }
 
+    private function buildRouteParamRegex($param)
+    {
+        preg_match('%{{(.*)}}%', $param, $matches);
+        $param = $matches[1];
+
+        $explode = explode('::',$param);
+        $paramName = $explode[0];
+        $paramTyp = $explode[1];
+
+        switch ($paramTyp){
+            case 'int':{
+                $paramRegex = '%^[0-9]+$%';
+                break;
+            }
+        }
+
+        return ['name' => $paramName, 'regex' => $paramRegex];
+    }
+
     public function routing()
     {
         $match = $this->match();
@@ -79,6 +100,7 @@ class Router
             $this->controller = $extractControllerInfo[0];
             $this->controllerMethod = $extractControllerInfo[1];
             $this->nameRouteMatch = $match['routeName'];
+            $this->matchedParams = $match['params'];
         }
         else{
             throw new \RouterException();
@@ -109,6 +131,9 @@ class Router
 
     public function matchRoute($routeArrayRegex)
     {
+        if(count($this->pathInfoParams) != count($routeArrayRegex))
+            return false;
+
         foreach ($routeArrayRegex as $key => $regex) {
             if (!preg_match($regex, $this->pathInfoParams[$key]))
                 return false;
@@ -125,5 +150,10 @@ class Router
     public function getControllerMethod()
     {
         return $this->controllerMethod;
+    }
+
+    public function getParams()
+    {
+        return $this->matchedParams;
     }
 }

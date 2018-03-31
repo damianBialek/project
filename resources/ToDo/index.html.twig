@@ -1,0 +1,24 @@
+{% extends 'Main/head.html.twig' %}
+
+{% block title %}ToDo Lista{% endblock %}
+{% block content %}
+    <header class="text-center">
+        <h1>Oto twoja ToDo lista</h1>
+    </header>
+    <article>
+        <div class="row">
+            <div class="col-6">
+                <h4 class="text-center">Do zrobienia</h4>
+                <section>
+                    {% for work in allWorks %}
+                        <div>{{ work.name }}</div>
+                    {% endfor %}
+                </section>
+            </div>
+            <div class="col-6">
+                <h4 class="text-center">Ukończone</h4>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

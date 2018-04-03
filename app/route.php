@@ -9,6 +9,12 @@ return [
     'login' => [
         '/login', 'Controller\\UserController::login', 'get'
     ],
+    'loginIn' => [
+        '/login', 'Controller\\UserController::loginIn', 'post'
+    ],
+    'logout' => [
+        '/logout', 'Controller\\UserController::logout', 'get'
+    ],
     'register' => [
         '/register', 'Controller\\UserController::register', 'get'
     ],

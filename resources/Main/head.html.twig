@@ -24,6 +24,15 @@
                 <a class="nav-link" href="https://github.com/damianBialek/project" target="_blank">GitHub</a>
             </li>
         </ul>
+        <div class="login-panel text-white ">
+            {% set user = UserController('isLogged') %}
+            {% if user  %}
+                <span class="align-middle">Zalogowano jako: <b>{{ user }}</b></span>
+                <span class="align-middle"><a href="{{ urlGenerator('logout') }}">Wyloguj</a></span>
+            {% else %}
+                <a href="{{ urlGenerator('login') }}">Logowanie</a>
+            {% endif %}
+        </div>
     </div>
 </nav>
 <main class="container">{% block content %}{% endblock %}</main>

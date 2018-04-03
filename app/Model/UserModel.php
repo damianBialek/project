@@ -6,15 +6,17 @@ class UserModel extends MainModel
 {
     protected $tableName = 'users';
 
-    public function getUser($data = [])
+    public function login($data = [])
     {
-        $stmt = $this->db->prepare('SELECT * FROM '.$this->tableName.' WHERE email=:email AND password =:password');
+        $stmt = $this->db->prepare('SELECT * FROM '.$this->tableName.' WHERE email=:email');
         $stmt->bindParam(':email', $data['email'], \PDO::PARAM_STR);
-        $stmt->bindParam(':password', $data['password']);
         $stmt->execute();
 
         if($stmt->rowCount() > 0){
             $result = $stmt->fetch();
+
+            if(!password_verify($data['passwd'], $result['password']))
+                return false;
 
             return $result;
         }

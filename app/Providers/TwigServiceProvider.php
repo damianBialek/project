@@ -2,6 +2,7 @@
 namespace Providers;
 
 
+use Controller\UserController;
 use UrlGenerator\UrlGenerator;
 
 class TwigServiceProvider
@@ -45,9 +46,14 @@ class TwigServiceProvider
             return $urlGenerator->generateUrlToAttachments($attachmentName);
         });
 
+        $userControllerFunction = new \Twig_Function('UserController',function($method){
+            return \Controller\UserController::$method();
+        });
+
         $twig->addFunction($urlGeneratorFunction);
         $twig->addFunction($activeMenuFunction);
         $twig->addFunction($attachmentFunction);
+        $twig->addFunction($userControllerFunction);
         $twig->addExtension(new \Twig_Extension_Debug());
 
         return $twig;

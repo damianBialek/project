@@ -23,6 +23,8 @@ class App
 
     private function start()
     {
+        session_start();
+
         $this->buildRequest();
 
         if(class_exists($this->controller)){

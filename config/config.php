@@ -12,11 +12,11 @@ return [
         'path' => $_SERVER['DOCUMENT_ROOT'].'/project/resources/',
         'cache' => $_SERVER['DOCUMENT_ROOT'].'/project/cache/',
         'url' => [
-            'basename' => 'http://localhost/project',
-            'attachments' => 'http://localhost/project/public/media/'
+            'basename' => "http://".$_SERVER["SERVER_NAME"]."/project",
+            'attachments' => "http://".$_SERVER["SERVER_NAME"]."/project/public/media/"
         ]
     ],
     'url' => [
-        'basename' => 'http://localhost/project'
+        'basename' => "http://".$_SERVER["SERVER_NAME"]."/project"
     ]
 ];

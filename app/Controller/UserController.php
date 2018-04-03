@@ -16,8 +16,7 @@ class UserController extends MainController
     public function logout()
     {
         if(self::isLogged()){
-            unset($_SESSION['logged']);
-            unset($_SESSION['login']);
+            unset($_SESSION['user']);
         }
         $this->redirect('home');
     }
@@ -27,8 +26,8 @@ class UserController extends MainController
         $user = new UserModel($this->config['database']);
 
         if($result = $user->login(['email' => $_POST['email'], 'passwd' => $_POST['password']])){
-            $_SESSION['logged'] = true;
-            $_SESSION['login'] = $result['email'];
+            $_SESSION['user'] = $result;
+            $_SESSION['user']['logged'] = true;
 
             $this->redirect('home');
         }
@@ -53,8 +52,8 @@ class UserController extends MainController
 
     public static function isLogged()
     {
-        if(isset($_SESSION['logged']) && $_SESSION['logged'] === true)
-            return $_SESSION['login'];
+        if(isset($_SESSION['user']['logged']) && $_SESSION['user']['logged'] === true)
+            return $_SESSION['user'];
         else
             return false;
     }

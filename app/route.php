@@ -20,5 +20,11 @@ return [
     ],
     'registerSignIn' => [
         '/register', 'Controller\\UserController::registerSignIn', 'post'
-    ]
+    ],
+    'questions' => [
+        '/questions', 'Controller\\QuestionsController::index', 'get'
+    ],
+    'questionAdd' => [
+        '/questions/add', 'Controller\\QuestionsController::addNewQuestion', 'get'
+    ],
 ];

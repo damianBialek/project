@@ -24,6 +24,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="https://github.com/damianBialek/project" target="_blank">GitHub</a>
             </li>
+            <li class="nav-item {{ activeMenu('questions') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ urlGenerator('questions') }}">Pytania</a>
+            </li>
         </ul>
         <div class="login-panel text-white ">
             {% set user = UserController('isLogged') %}

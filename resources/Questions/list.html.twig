@@ -1,0 +1,27 @@
+{% extends 'Main/head.html.twig' %}
+
+{% block title %}Lista pytań{% endblock %}
+{% block content %}
+    {% if UserController('isLogged')  %}
+        <a href="{{ urlGenerator('questionAdd') }}" type="button" class="btn btn-primary">Dodaj nowe pytanie</a>
+    {% endif %}
+
+    <div class="questions-list">
+        <table class="table table-hover">
+            <thead>
+                <th>Tytuł</th>
+                <th>Dodany przez</th>
+                <th>Dodany</th>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                    <tr>
+                        <td>{{ question['title'] }}</td>
+                        <td>{{ question['userName'] }}</td>
+                        <td>{{ question['added_at'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -6,9 +6,7 @@ namespace Model;
 class MainModel
 {
     private $config;
-    protected $tableName;
     protected $db;
-
     private $driver;
     private $host;
     private $user;

@@ -4,11 +4,11 @@ namespace Model;
 
 class QuestionsModel extends MainModel
 {
-    protected $tableName = 'questions';
+    const TABLENAME = 'questions';
 
     public function getAll()
     {
-        $stmt = $this->db->query("SELECT $this->tableName.*, users.name as userName FROM $this->tableName, users WHERE $this->tableName.id_user = users.id");
+        $stmt = $this->db->query("SELECT ".self::TABLENAME.".*, ".UserModel::TABLENAME.".name as userName FROM ".self::TABLENAME.", ".UserModel::TABLENAME." WHERE ".self::TABLENAME.".id_user = ".UserModel::TABLENAME.".id");
         $result = $stmt->fetchAll();
 
         return $result;

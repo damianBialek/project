@@ -33,7 +33,7 @@ class App
             if(method_exists($controller,$this->method)){
                 if($this->checkAcceptJson())
                     $controller->setJson(true);
-                call_user_func_array(array($controller, $this->method),array());
+                call_user_func_array(array($controller, $this->method),[['post' => $_POST, 'get' => $_GET]]);
             }
             else{
                 $this->error("Metoda $this->method w $this->controller nie istnieje");

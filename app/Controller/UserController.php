@@ -21,11 +21,11 @@ class UserController extends MainController
         $this->redirect('home');
     }
 
-    public function loginIn()
+    public function loginIn($request = [])
     {
         $user = new UserModel($this->config['database']);
 
-        if($result = $user->login(['email' => $_POST['email'], 'passwd' => $_POST['password']])){
+        if($result = $user->login(['email' => $request['post']['email'], 'passwd' => $request['post']['password']])){
             $_SESSION['user'] = $result;
             $_SESSION['user']['logged'] = true;
 
@@ -38,6 +38,8 @@ class UserController extends MainController
 
     public function register()
     {
+        if(self::isLogged())
+            $this->redirect('home');
         $this->render('User/register.html.twig');
     }
 
@@ -45,9 +47,10 @@ class UserController extends MainController
     {
         $user = new UserModel($this->config['database']);
 
-        if($user->userExist(['email' => $_POST['email']])){
-            $this->redirect('register');
-        }
+        if($user->insertNewUser($_POST))
+            $this->loginIn(['post'=>['email' => $_POST['email'], 'password' => $_POST['password']]]);
+        else
+            $this->redirect('home');
     }
 
     public static function isLogged()

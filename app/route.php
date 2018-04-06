@@ -3,6 +3,9 @@ return [
     'home' => [
         '','Controller\\PageController::index', 'get'
     ],
+    'css' => [
+        '/public/css','', 'get'
+    ],
     'projects' => [
         '/my-projects', 'Controller\\PageController::projects', 'get'
     ],

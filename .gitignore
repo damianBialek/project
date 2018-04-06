@@ -2,4 +2,3 @@ vendor/*
 .idea/*
 cache/*
 public/media/*
-composer.lock

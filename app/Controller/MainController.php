@@ -10,7 +10,6 @@ abstract class MainController
 
     protected $toJson = false;
     protected $request;
-    protected $entityManager;
     protected $view;
     protected $urlGenerator;
     protected $requestParams;
@@ -20,7 +19,6 @@ abstract class MainController
         $this->request = $request;
         $this->requestParams = $requestParams;
         $this->loadConfig();
-        $this->doctrineInit();
         $this->twigInit();
     }
 
@@ -29,11 +27,6 @@ abstract class MainController
         $this->config = include __DIR__.'/../../config/config.php';
     }
 
-    private function doctrineInit()
-    {
-        $doctrine = new \Providers\DoctrineServiceProvider($this->config['database']);
-        $this->entityManager = $doctrine->provide();
-    }
 
     private function twigInit()
     {

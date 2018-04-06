@@ -16,6 +16,17 @@
         <div class="form-group">
             <label for="inputEmail" class="sr-only">Adres e-mail</label>
             <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Adres e-mail" required>
+            <div class="invalid-feedback">
+                Podaj prawidłowy adres e-mail
+            </div>
+            <div id="emailBusy" style="display: block;">
+                <div class="valid-feedback">
+                    Podany adres e-mail nie jest zajęty
+                </div>
+                <div class="invalid-feedback">
+                    Podany adres e-mail jest już zajęty
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label for="inputPassword" class="sr-only">Hasło</label>
@@ -24,8 +35,50 @@
         <div class="form-group">
             <label for="inputConfirmPassword" class="sr-only">Hasło</label>
             <input name="confirmPassword" type="password" id="inputConfirmPassword" class="form-control" placeholder="Powtórz swoje hasło" required>
+            <div class="invalid-feedback">
+                Podano dwa różne hasła!
+            </div>
         </div>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Zarejestruj</button>
     </form>
+{% endblock %}
+{% block script %}
+<script>
+    $(function(){
+       $('#inputEmail').on('blur',function(event){
+           $('#emailBusy .valid-feedback,#emailBusy .invalid-feedback').hide();
+
+           if(this.checkValidity()){
+               if($(this).val().trim() != "") {
+                   $(this).removeClass('is-invalid');
+                   $(this).addClass('is-valid');
+                   $('#emailBusy .valid-feedback').show();
+               }
+               else {
+                   $(this).removeClass('is-valid');
+                   $(this).addClass('is-invalid');
+                   $('#emailBusy .invalid-feedback').show();
+               }
+           }
+           else{
+               $(this).addClass('is-invalid');
+           }
+       });
+        $('#inputConfirmPassword').on('blur',function(event){
+           if($('#inputPassword').val().trim() != "" && ($(this).val().trim() == $('#inputPassword').val().trim())){
+               $(this).removeClass('is-invalid');
+               $('#inputPassword').removeClass('is-invalid');
+               $(this).addClass('is-valid');
+               $('#inputPassword').addClass('is-valid');
+           }
+           else{
+               $(this).removeClass('is-valid');
+               $('#inputPassword').removeClass('is-valid');
+               $(this).addClass('is-invalid');
+               $('#inputPassword').addClass('is-invalid');
+           }
+        });
+    });
+</script>
 {% endblock %}
